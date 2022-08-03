@@ -20,7 +20,7 @@ class AdminSeeder extends Seeder
             'id' => Str::uuid(),
             'name' => env('ADMIN_NAME') ?? 'Admin',
             'email' => env('ADMIN_EMAIL') ?? 'admin@test.com',
-            'password' => env('ADMIN_PASSWORD') ?? 'password',
+            'password' => bcrypt(env('ADMIN_PASSWORD') ?? 'password'),
             'is_admin' => true,
         ]);
     }
