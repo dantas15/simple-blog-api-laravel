@@ -55,6 +55,8 @@ class CommentController extends Controller
 
         $comment = Comment::create($data);
 
+        $comment = Comment::with('user')->get()->where('id', $comment->id ?? $comment['id'])->first();
+
         return response()->json([
             'data' => $comment,
         ], 201);
