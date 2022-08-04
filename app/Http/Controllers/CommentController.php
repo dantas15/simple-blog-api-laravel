@@ -82,6 +82,14 @@ class CommentController extends Controller
             ], 404);
         }
 
+        $user = Auth::user();
+
+        if ($user->is_admin != 1 && $comment->user_id != $user->id) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
         $comment->update($data);
 
         return response()->json([
@@ -92,6 +100,21 @@ class CommentController extends Controller
     public function destroy($id)
     {
         $comment = Comment::find($id);
+
+        if (!$comment) {
+            return response()->json([
+                'message' => 'Comment not found'
+            ], 404);
+        }
+
+        $user = Auth::user();
+
+        if ($user->is_admin != 1 && $comment->user_id != $user->id) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
         $comment->delete();
 
         return response()->json([
