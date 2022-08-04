@@ -22,7 +22,22 @@ class PostController extends Controller
         ], 200);
     }
 
-    public function show($id)
+    public function show(string $slug)
+    {
+        $post = Post::where('slug', $slug)->first();
+
+        if (!$post) {
+            return response()->json([
+                'message' => 'Post not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'data' => $post,
+        ], 200);
+    }
+
+    public function showById(string $id)
     {
         $post = Post::find($id);
 
@@ -56,11 +71,18 @@ class PostController extends Controller
         $data = $this->validatePost($request);
 
         $post = Post::find($id);
+
+        if (!$post) {
+            return response()->json([
+                'message' => 'Post not found'
+            ], 404);
+        }
+
         $post->update($data);
 
         return response()->json([
             'data' => $post
-        ], 201);
+        ], 200);
     }
 
     public function destroy($id)
@@ -71,6 +93,21 @@ class PostController extends Controller
         return response()->json([
             'message' => 'Post deleted',
         ]);
+    }
+
+    public function comments(Request $request)
+    {
+        $post = Post::find($request->id);
+
+        if (!$post) {
+            return response()->json([
+                'message' => 'Post not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'data' => $post->comments()->get() ?? [],
+        ], 200);
     }
 
     /**

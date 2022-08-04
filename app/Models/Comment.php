@@ -10,6 +10,13 @@ class Comment extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'id',
+        'content',
+        'post_id',
+        'user_id',
+    ];
+
     /**
      * Indicates if the model's ID is auto-incrementing.
      *
@@ -30,5 +37,13 @@ class Comment extends Model
     public function post(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Post::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
