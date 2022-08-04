@@ -33,7 +33,7 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return response()->json([
-                'message' => 'Incorrect Email / Password.',
+                'message' => 'Incorrect Email or Password.',
             ], 400);
         }
 
@@ -70,6 +70,7 @@ class AuthController extends Controller
 
         $credentials = $request->only(['name', 'email', 'password']);
         $credentials['id'] = Str::uuid();
+        $credentials['password'] = Hash::make($credentials['password']);
 
         $user = User::create($credentials);
 
