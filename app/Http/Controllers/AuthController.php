@@ -74,7 +74,6 @@ class AuthController extends Controller
         $user = User::create($credentials);
 
         return $this->JwtResponse($user);
-
     }
 
     /**
@@ -98,6 +97,7 @@ class AuthController extends Controller
             'access_token' => JWT::encode($payload, env('JWT_SECRET'), env('JWT_ALGO')),
             'token_type' => 'bearer',
             'expires_in' => $expiresIn,
+            'user' => $user,
         ];
 
         return response()->json($responseWithToken);
