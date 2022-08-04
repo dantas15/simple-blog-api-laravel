@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -105,8 +106,10 @@ class PostController extends Controller
             ], 404);
         }
 
+        $comments = Comment::with('user')->get()->where('post_id', $post->id)->all();
+
         return response()->json([
-            'data' => $post->comments()->get() ?? [],
+            'data' => $comments ?? [],
         ], 200);
     }
 
