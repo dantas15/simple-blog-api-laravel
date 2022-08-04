@@ -11,8 +11,8 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except('index');
-        $this->middleware('auth.admin')->except('index');
+        $this->middleware('auth:api')->except(['index', 'show']);
+        $this->middleware('auth.admin')->except(['index', 'show']);
     }
 
     public function index()
@@ -24,7 +24,7 @@ class PostController extends Controller
 
     public function show(string $slug)
     {
-        $post = Post::where('slug', $slug)->first();
+        $post = Post::with(['comments'])->get()->where('slug', $slug)->first();
 
         if (!$post) {
             return response()->json([
