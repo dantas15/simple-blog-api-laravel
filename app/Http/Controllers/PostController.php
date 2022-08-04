@@ -18,7 +18,7 @@ class PostController extends Controller
     public function index()
     {
         return response()->json([
-            'data' => Post::all() ?? [],
+            'data' => Post::with('user')->get()->all() ?? [],
         ], 200);
     }
 
@@ -117,7 +117,8 @@ class PostController extends Controller
     public function validatePost(Request $request): array
     {
         $request->validate([
-            'title' => ['required',
+            'title' => [
+                'required',
                 'string',
                 'max:255',
             ],
