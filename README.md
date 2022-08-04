@@ -16,3 +16,6 @@
 3. Run `php artisan key:generate`
 4. Run `./vendor/bin/sail up -d`
 5. Ready to go! `http://127.0.0.1/api`
+
+## Deploy 🚀
+- Currently deployed @ [Heroku](https://simple-blog-api-laravel.herokuapp.com/) 
