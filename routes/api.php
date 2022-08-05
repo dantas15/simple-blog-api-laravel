@@ -12,6 +12,8 @@ Route::get('/', function (Request $request) {
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
 Route::post('/register', [\App\Http\Controllers\AuthController::class, 'register'])->name('register');
 
+Route::middleware('auth')->get('/show', [\App\Http\Controllers\AuthController::class, 'show'])->name('show');
+
 Route::controller(\App\Http\Controllers\AdminController::class)->group(function () {
     Route::get('/users', 'users');
 });
@@ -38,4 +40,3 @@ Route::controller(\App\Http\Controllers\CommentController::class)->group(functio
     Route::get('/comments/{id}/post', 'post');
     Route::get('/comments/{id}/user', 'user');
 });
-

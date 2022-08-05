@@ -6,11 +6,26 @@ use App\Models\User;
 use DateTime;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(): \Illuminate\Http\JsonResponse
+    {
+        $user = User::find(Auth::user()->getAuthIdentifier());
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        return response()->json($user);
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
